@@ -3,6 +3,8 @@
 #include <list>
 #include <sstream>
 #include <cctype>
+#include <cmath>
+
 using namespace std;
 
 void punto_uno();
@@ -16,9 +18,13 @@ int punto_quince();
 int punto_17();
 int punto_19();
 int punto_21();
+int punto_23();
+void punto_25();
+int punto_27();
+int punto_29();
 int main()
 {
-    punto_21();
+    punto_25();
     return 0;
 }
 
@@ -192,3 +198,27 @@ int punto_21(){
     }
     return 0;
 }
+int punto_23(){
+      int a, b,  mcmResultado;
+    cout << "Ingrese dos numeros: " << endl;
+    cin >> a >>b;
+    int originalA = a, originalB = b;
+    int tempA = a, tempB = b;
+    while (tempB != 0) {
+        int temp = tempB;
+        tempB = tempA % tempB;
+        tempA = temp;
+    }
+    mcmResultado = (originalA * originalB) / tempA;
+    cout << "El MCM de " << originalA << " y " << originalB << " es: " << mcmResultado << endl;
+    return 0;
+}
+void punto_25(){
+   int a;
+   cout << "Ingrese un numero: ";
+   cin >> a;
+   int cantidadDigitos = (a == 0) ? 1 :log10(abs(a)) + 1;
+   cout << a << " tiene " << cantidadDigitos << " digitos" << endl;
+
+}
+
