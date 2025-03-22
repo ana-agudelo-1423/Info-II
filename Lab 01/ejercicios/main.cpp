@@ -1,5 +1,7 @@
 #include <iostream>
 #include <math.h>
+#include <list>
+#include <sstream>
 
 using namespace std;
 
@@ -11,9 +13,11 @@ void punto_nueve();
 int punto_once();
 int punto_trece();
 int punto_quince();
+int punto_17();
+int punto_19();
 int main()
 {
-    punto_quince();
+    punto_19();
     return 0;
 }
 
@@ -121,3 +125,53 @@ int punto_quince(){
 
     return 0;
 }
+
+int punto_17(){
+    list<int> numeros;
+    string linea;
+    int numero;
+
+    cout << "Ingrese varios numeros (0 para terminar): ";
+    getline(cin, linea);
+
+    stringstream ss(linea);
+    while (ss >> numero) {
+        if (numero == 0) {
+            break;
+        }
+        numeros.push_back(numero);
+    }
+
+    if (!numeros.empty()) {
+        int mayor = *numeros.begin();
+        for (int num : numeros) {
+            if (num > mayor) {
+                mayor = num;
+            }
+        }
+        cout << "El numero mayor fue: " << mayor << endl;
+    } else {
+        cout << "No se ingresaron numeros válidos." << endl;
+    }
+
+    return 0;
+}
+int punto_19(){
+    int a =0,divisiones=1, residuo =0;
+    cout <<"Calcular si un numero es primo"<< endl<< endl;
+    cout<<"Ingrese un numero"<< endl;
+    cin >>a;
+    do {
+        if(a % divisiones==0){
+            residuo++;
+        }
+        divisiones ++;
+    }while(divisiones <=a);
+    if(residuo==2){
+        cout << "--> El numero "<< a <<" es primo"<< endl;
+    }else {
+        cout << "--> El numero "<< a <<" no es primo"<< endl;
+    }
+    return 0;
+}
+
