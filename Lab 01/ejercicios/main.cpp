@@ -2,7 +2,7 @@
 #include <math.h>
 #include <list>
 #include <sstream>
-
+#include <cctype>
 using namespace std;
 
 void punto_uno();
@@ -15,9 +15,10 @@ int punto_trece();
 int punto_quince();
 int punto_17();
 int punto_19();
+int punto_21();
 int main()
 {
-    punto_19();
+    punto_21();
     return 0;
 }
 
@@ -175,3 +176,19 @@ int punto_19(){
     return 0;
 }
 
+int punto_21(){
+    char letra;
+    cout<< "Ingrese una letra"<<endl;
+    cin >> letra;
+    if (isalpha(letra)) { // Verifica si es una letra
+        if (isupper(letra)) {
+            letra = tolower(letra);
+        } else {
+            letra= toupper(letra);
+        }
+        cout << "Letra convertida: " << letra << endl;
+    } else {
+        cout << "El carácter ingresado no es una letra." << endl;
+    }
+    return 0;
+}
