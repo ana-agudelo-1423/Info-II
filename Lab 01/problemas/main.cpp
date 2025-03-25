@@ -14,7 +14,7 @@ int problema_17();
 
 int main()
 {
-    problema_3();
+    problema_5();
     return 0;
 }
 int problema_1(){
@@ -51,5 +51,39 @@ int problema_3(){
     return 0;
 }
 int problema_5(){
+    int n;
+    cout << "Ingrese un numero entero impar: ";
+    cin >> n;
+
+    if (n % 2 == 0) {
+        cout << "Por favor, ingrese un numero impar." << endl;
+        return 1;
+    }
+
+    int mitad = n / 2;
+
+    for (int i = 0; i <= mitad; i++) {
+        for (int j = 0; j < mitad - i; j++) {
+            cout << " ";
+        }
+        for (int j = 0; j < 2 * i + 1; j++) {
+            cout << "*";
+        }
+        cout << endl;
+    }
+
+    for (int i = mitad - 1; i >= 0; i--) {
+        for (int j = 0; j < mitad - i; j++) {
+            cout << " ";
+        }
+        for (int j = 0; j < 2 * i + 1; j++) {
+            cout << "*";
+        }
+        cout << endl;
+    }
+
+    return 0;
+}
+int problema_7(){
     return 0;
 }
