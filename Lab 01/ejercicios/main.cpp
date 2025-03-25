@@ -20,11 +20,12 @@ int punto_19();
 int punto_21();
 int punto_23();
 void punto_25();
-int punto_27();
+void punto_27();
 int punto_29();
+
 int main()
 {
-    punto_25();
+    punto_29();
     return 0;
 }
 
@@ -221,4 +222,62 @@ void punto_25(){
    cout << a << " tiene " << cantidadDigitos << " digitos" << endl;
 
 }
+void punto_27(){
+    double a, b, resultado;
+    char operacion;
+    cout << "Ingrese el primer numero: ";
+    cin >> a;
+    cout << "Ingrese la operacion (+, -, *, /): ";
+    cin >> operacion;
+    cout << "Ingrese el segundo numero: ";
+    cin >> b;
+    switch (operacion) {
+    case '+':
+        resultado = a + b;
+        break;
+    case '-':
+        resultado = a - b;
+        break;
+    case '*':
+        resultado = a * b;
+        break;
+    case '/':
+        if (b != 0)
+            resultado = a / b;
+        else {
+            cout << "Error: Division por cero." << std::endl;
+            return;
+        }
+        break;
+    default:
+        cout << "Operacion no valida." << endl;
+        return;
 
+    }
+ cout <<a<< " " << operacion << " " <<b << " = " << resultado << endl;
+
+}
+int punto_29(){
+    int bajo = 0, alto = 100, intento;
+    char respuesta;
+
+    cout << "Piensa en un numero entre 0 y 100. El programa intentara adivinarlo." << endl;
+
+    while (bajo <= alto) {
+        intento = (bajo + alto) / 2;
+        cout << "Es " << intento << " tu numero? (>, <, =): ";
+        cin >> respuesta;
+
+        if (respuesta == '=') {
+            cout << "Genial! El numero es " << intento << "" << endl;
+            break;
+        } else if (respuesta == '>') {
+            bajo = intento + 1;
+        } else if (respuesta == '<') {
+            alto = intento - 1;
+        } else {
+            cout << "Por favor, ingresa un simbolo valido ('>', '<' o '=')" << endl;
+        }
+    }
+    return 0;
+}
