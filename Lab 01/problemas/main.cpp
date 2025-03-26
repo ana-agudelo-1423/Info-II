@@ -5,7 +5,7 @@ using namespace std;
 int problema_1();
 int problema_3();
 int problema_5();
-int problema_7();
+void problema_7();
 int problema_9();
 int problema_11();
 int problema_13();
@@ -14,7 +14,7 @@ int problema_17();
 
 int main()
 {
-    problema_5();
+    problema_9();
     return 0;
 }
 int problema_1(){
@@ -84,6 +84,43 @@ int problema_5(){
 
     return 0;
 }
-int problema_7(){
+void problema_7(){
+    int n;
+    cout << "Ingrese un numero: ";
+    cin >> n;
+
+    int a = 1, b = 1, suma = 0;
+    while (b <= n) {
+        if (b % 2 == 0) {
+            suma += b;
+        }
+        int temp = a + b;
+        a = b;
+        b = temp;
+    }
+    cout << "El resultado de la suma es: " << suma << endl;
+}
+int problema_9(){
+    int n;
+    cout << "Ingrese un numero: ";
+    cin >> n;
+
+    int suma = 0, temp = n;
+
+    while (temp > 0) {
+        int digito = temp % 10;
+
+
+        int potencia = 1;
+        for (int i = 0; i < digito; i++) {
+            potencia *= digito;
+        }
+
+        suma += potencia;
+        temp /= 10;
+    }
+
+    cout << "El resultado de la suma es: " << suma << endl;
     return 0;
 }
+
