@@ -8,13 +8,13 @@ int problema_5();
 void problema_7();
 int problema_9();
 int problema_11();
-int problema_13();
+void problema_13();
 int problema_15();
 int problema_17();
 
 int main()
 {
-    problema_9();
+    problema_17();
     return 0;
 }
 int problema_1(){
@@ -124,3 +124,100 @@ int problema_9(){
     return 0;
 }
 
+int problema_11(){
+    int n;
+    cout << "Ingrese un numero: ";
+    cin >> n;
+
+    int resultado = 1;
+
+    for (int i = 2; i <= n; i++) {
+        int a = resultado, b = i;
+
+        while (b != 0) {
+            int temp = b;
+            b = a % b;
+            a = temp;
+        }
+
+
+        resultado = (resultado / a) * i;
+    }
+
+    cout << "El minimo comun multiplo es: " << resultado << endl;
+    return 0;
+}
+void problema_13(){
+    int n;
+    cout << "Ingrese un numero: ";
+    cin >> n;
+
+    int suma = 0;
+
+
+    auto esPrimo = [](int num) {
+        if (num < 2) return false;
+        for (int i = 2; i * i <= num; i++) {
+            if (num % i == 0) return false;
+        }
+        return true;
+    };
+
+    for (int i = 2; i < n; i++) {
+        if (esPrimo(i)) {
+            suma += i;
+        }
+    }
+
+    cout << "El resultado de la suma es: " << suma << endl;
+}
+int problema_15(){
+    int n;
+    cout << "Ingrese un numero impar: ";
+    cin >> n;
+
+    if (n % 2 == 0) {
+        cout << "El numero debe ser impar." << endl;
+        return 0;
+    }
+
+    int suma = 1, num = 1;
+    for (int capa = 1; capa <= n / 2; capa++) {
+        for (int i = 0; i < 4; i++) {
+            num += capa * 2;
+            suma += num;
+        }
+    }
+
+    cout << "En una espiral de " << n << "x" << n << ", la suma es: " << suma << "." << endl;
+    return 0;
+}
+int problema_17(){
+    int k;
+    cout << "Ingrese un numero k: ";
+    cin >> k;
+
+    int n = 1, triangulo = 1;
+
+    while (true) {
+        int divisores = 0;
+
+        // Contar divisores solo hasta la mitad del número
+        for (int i = 1; i * i <= triangulo; i++) {
+            if (triangulo % i == 0) {
+                divisores += (i * i == triangulo) ? 1 : 2;
+            }
+        }
+
+        if (divisores > k) {
+            cout << "El numero es: " << triangulo << " que tiene " << divisores << " divisores." << endl;
+            break;
+        }
+
+        n++;
+        triangulo += n;
+    }
+
+
+    return 0;
+}
