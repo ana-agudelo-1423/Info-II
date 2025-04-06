@@ -14,7 +14,7 @@ int problema_17();
 
 int main()
 {
-    problema_17();
+    problema_5();
     return 0;
 }
 int problema_1(){
