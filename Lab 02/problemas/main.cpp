@@ -2,6 +2,7 @@
 #include <cstring>
 #include <cstdlib>
 #include <iomanip>
+#include <limits>
 using namespace std;
 void problema_1();
 bool problema_3();
@@ -11,32 +12,82 @@ int problema_7();
 int problema_9();
 int problema_11();
 int problema_13();
+void problema_15();
+int problema_17();
 
 const int FILAS = 15;
 const int COLUMNAS = 20;
-int main()
-{
-     cout << "Problema 1"<< endl;
-    problema_1();
-        cout << "\n";
-     cout << "Problema 3"<< endl;
-    Problema_3();
-        cout << "\n";
-     cout << "Problema 5"<< endl;
-    problema_5();
-        cout << "\n";
-     cout << "Problema 7"<< endl;
-     problema_7();
-     cout << "\n";
-     cout << "Problema 9"<< endl;
-    problema_9();
-     cout << "\n";
-     cout << "Problema 11"<< endl;
-     problema_11();
-     cout << "\n";
-     cout << "Problema 13"<< endl;
-     problema_13();
-     return 0;
+int main() {
+    int opcion;
+    do {
+        cout << "\nProblemas:\n";
+        cout << "1. Problema 1\n";
+        cout << "2. Problema 3\n";
+        cout << "3. Problema 5\n";
+        cout << "4. Problema 7\n";
+        cout << "5. Problema 9\n";
+        cout << "6. Problema 11\n";
+        cout << "7. Problema 13\n";
+        cout << "8. Problema 15\n";
+        cout << "9. Problema 17\n";
+        cout << "0. Salir\n";
+        cout << "Seleccione una opcion: ";
+        cin >> opcion;
+
+        if (cin.fail()) {
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "Entrada inválida. Intente de nuevo.\n";
+            continue;
+        }
+
+        switch (opcion) {
+        case 1:
+            cout << "\n--- Problema 1 ---\n";
+            problema_1();
+            break;
+        case 2:
+            cout << "\n--- Problema 3 ---\n";
+            Problema_3();
+            break;
+        case 3:
+            cout << "\n--- Problema 5 ---\n";
+            problema_5();
+            break;
+        case 4:
+            cout << "\n--- Problema 7 ---\n";
+            problema_7();
+            break;
+        case 5:
+            cout << "\n--- Problema 9 ---\n";
+            problema_9();
+            break;
+        case 6:
+            cout << "\n--- Problema 11 ---\n";
+            problema_11();
+            break;
+        case 7:
+            cout << "\n--- Problema 13 ---\n";
+            problema_13();
+            break;
+        case 8:
+            cout << "\n--- Problema 15 ---\n";
+            problema_15();
+            break;
+        case 9:
+            cout << "\n--- Problema 17 ---\n";
+            problema_17();
+            break;
+        case 0:
+            cout << "Vuelva pronto.\n";
+            break;
+        default:
+            cout << "Opcion invalida. Intente de nuevo.\n";
+            break;
+        }
+    } while (opcion != 0);
+
+    return 0;
 }
 //falta arduino
 void problema_1(){
@@ -221,7 +272,7 @@ int problema_11(){
         cout << "2. Reservar asiento\n";
         cout << "3. Cancelar reserva\n";
         cout << "4. Salir\n";
-        cout << "Seleccione una opcióon: ";
+        cout << "Seleccione una opcion: ";
         cin >> opcion;
 
         if (opcion == '1') {
@@ -296,5 +347,84 @@ int problema_13(){
     int resultado = contarEstrellas(punteros, filas, columnas);
     cout << "Estrellas encontradas: " << resultado << endl;
 
+    return 0;
+}
+bool interseccionRectangulos(int A[4], int B[4], int C[4]) {
+    int x1A = A[0];
+    int y1A = A[1];
+    int x2A = x1A + A[2];
+    int y2A = y1A + A[3];
+
+    int x1B = B[0];
+    int y1B = B[1];
+    int x2B = x1B + B[2];
+    int y2B = y1B + B[3];
+
+    int x1C = max(x1A, x1B);
+    int y1C = max(y1A, y1B);
+    int x2C = min(x2A, x2B);
+    int y2C = min(y2A, y2B);
+
+    if (x1C < x2C && y1C < y2C) {
+        C[0] = x1C;
+        C[1] = y1C;
+        C[2] = x2C - x1C;
+        C[3] = y2C - y1C;
+        return true;
+    } else {
+        C[0] = C[1] = C[2] = C[3] = 0;
+        return false;
+    }
+}
+
+void problema_15(){
+    int A[4], B[4], C[4];
+
+    cout << "Ingrese los datos del rectangulo A (x, y, ancho, alto): ";
+    for (int i = 0; i < 4; i++) {
+        cin >> A[i];
+    }
+
+    cout << "Ingrese los datos del rectangulo B (x, y, ancho, alto): ";
+    for (int i = 0; i < 4; i++) {
+        cin >> B[i];
+    }
+
+    if (interseccionRectangulos(A, B, C)) {
+        cout << "La interseccion es: {";
+        for (int i = 0; i < 4; i++) {
+            cout << C[i];
+            if (i < 3) cout << ", ";
+        }
+        cout << "}" << endl;
+    } else {
+        cout << "No hay intersección entre los rectángulos." << endl;
+}
+}
+//falta arduino
+int sumaDivisores(int n) {
+    int suma = 1; // 1 siempre es divisor
+    for (int i = 2; i <= n / 2; i++) {
+        if (n % i == 0)
+            suma += i;
+    }
+    return suma;
+}
+int problema_17(){
+    int limite;
+    cout << "Ingresa un número: ";
+    cin >> limite;
+
+    int sumaAmigables = 0;
+
+    for (int a = 2; a < limite; a++) {
+        int b = sumaDivisores(a);
+        if (b != a && b < limite && sumaDivisores(b) == a && a < b) {
+            // Se verifica que a < b para evitar contar pares duplicados
+            sumaAmigables += a + b;
+        }
+    }
+
+    cout << "El resultado de la suma es: " << sumaAmigables << endl;
     return 0;
 }
