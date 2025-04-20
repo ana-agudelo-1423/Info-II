@@ -111,13 +111,15 @@ void codificacion(){
     int metodo;
     int semilla;
     string entrada, salida;
-    string binario = leerArchivoBinario(entrada);
-    cout << "Seleccione el método de codificación:\n";
-    cout << "1. Inversión según reglas por bloque\n";
-    cout << "2. Rotación circular de bits\n";
+
+    cout << "Seleccione el metodo de codificacion:\n";
+    cout << "1. Inversion segun reglas por bloque\n";
+    cout << "2. Rotacion circular de bits\n";
+
     // Pedir datos por consola
     cout << "Archivo fuente: ";
     cin >> entrada;
+  string binario = leerArchivoBinario(entrada);
     cout << "Archivo salida: ";
     cin >> salida;
     cout << "Semilla (n): ";
@@ -129,18 +131,38 @@ void codificacion(){
     } else if (metodo == 2) {
         resultado = codificarMetodo2(binario, semilla);
     } else {
-        cout << "Método inválido\n";
+        cout << "Metodo invalido\n";
         return;
     }
 }
 
-
-void cajero(){
-    int opcion;
-    char admin;
+void administrador (){
     char claveadmin;
+    cout << "\n--- Administador ---\n";
+    cout<< "Ingrese clave"<< endl;
+    cin >> claveadmin;
+    cout << "Desea realizar registro de nuevo usuario? Si = 1 No = 2"<<endl ;
+
+}
+void usuario(){
     char usuario;
     char clave;
+    int opciones;
+    cout << "\n--- Usuario ---\n";
+    cout << "Ingrese Usuario"<< endl;
+    cin >> usuario;
+    cout<< "Ingrese clave"<< endl;
+    cin >> clave;
+      cout << "\n--- Opciones ---\n";
+    cout <<"1. Consultar saldo"<<endl;
+    cout << "2. Retirar saldo"<<endl;
+    cout <<"Que desea hacer."<<endl;
+    cin>> opciones;
+
+}
+void cajero(){
+    int opcion;
+
     cout <<"MENU CAJERO"<<endl;
     cout << "OPCIONES ROLES"<< endl;
     cout <<"1. Administrador"<<endl;
@@ -151,20 +173,13 @@ void cajero(){
 
     switch (opcion) {
     case 1:
-        cout << "\n--- Administador ---\n";
-        cout << "Ingrese Usuario"<< endl;
-        cin >> admin;
-        cout<< "Ingrese clave"<< endl;
-         cin >> claveadmin;
+        administrador();
+
         break;
     case 2:
-        cout << "\n--- Usuario ---\n";
-        cout << "Ingrese Usuario"<< endl;
-        cin >> usuario;
-        cout<< "Ingrese clave"<< endl;
-        cin >> clave;
+        usuario();
         break;
-        break;
+
     case 3:
         cout << "Vuelva pronto.\n";
         break;
