@@ -115,21 +115,25 @@ void codificacion(){
     int metodo;
     int semilla;
     string entrada, salida;
-
+    
     cout << "Seleccione el metodo de codificacion:\n";
     cout << "1. Inversion segun reglas por bloque\n";
     cout << "2. Rotacion circular de bits\n";
-
+    
     // Pedir datos por consola
     cout << "Archivo fuente: ";
     cin >> entrada;
-  string binario = leerArchivoBinario(entrada);
+    string binario = leerArchivoBinario(entrada);
+    
     cout << "Archivo salida: ";
     cin >> salida;
+    
     cout << "Semilla (n): ";
     cin >> semilla;
+    
     cout << "Método (1 o 2): ";
     cin >> metodo;
+    
     if (metodo == 1) {
         resultado = codificarMetodo1(binario, semilla);
     } else if (metodo == 2) {
@@ -138,6 +142,9 @@ void codificacion(){
         cout << "Metodo invalido\n";
         return;
     }
+    
+    guardarBinario(resultado, salida);  o
+    cout << "Archivo codificado guardado exitosamente en: " << salida << "\n";
 }
 
 string textoABinario(const string& texto) {
