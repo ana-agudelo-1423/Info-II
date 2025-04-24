@@ -11,32 +11,36 @@ void codificacion();
 void cajero();
 int main(){
     int opcion;
-    cout << "OPCIONES MENU"<< endl;
-    cout <<"1. Codificar archivos"<<endl;
-    cout << "2. Cajero"<<endl;
-    cout << "3. Salir "<<endl;
-    cout <<"Escoja una opcion: "<<endl;
-    cin>> opcion;
+    do {
+
+    cout << "\n==============================\n";
+    cout << "        MENU PRINCIPAL        \n";
+    cout << "==============================\n";
+    cout << "1. Codificar archivos\n";
+    cout << "2. Cajero\n";
+    cout << "3. Salir\n";
+    cout << "Seleccione una opción: ";
+    cin >> opcion;
 
     switch (opcion) {
-        case 1:
-            cout << "\n--- Codificar archivos de texto ---\n";
-            codificacion();
-            break;
-        case 2:
-            cout << "\n--- Cajero ---\n";
-            cajero();
-            break;
-        case 3:
-             cout << "Vuelva pronto.\n";
-             break;
-         default:
-        cout << "Opcion invalida. Intente de nuevo.\n";
+    case 1:
+        cout << "\n--- Codificar archivos de texto ---\n";
+        codificacion();
         break;
-    } while(opcion != 3);
+    case 2:
+        cout << "\n--- Cajero ---\n";
+        cajero();  // Asumiendo que está implementado como se explicó
+        break;
+    case 3:
+        cout << "Vuelva pronto.\n";
+        break;
+    default:
+        cout << "Opción inválida. Intente de nuevo.\n";
+    }
 
-    return 0;
+} while (opcion != 3);
 
+return 0;
 }
 string leerArchivoBinario(const string& nombreArchivo) {
     ifstream archivo(nombreArchivo, ios::binary);
