@@ -136,30 +136,179 @@ void codificacion(){
     }
 }
 
-void administrador (){
-    char claveadmin;
-    cout << "\n--- Administador ---\n";
-    cout<< "Ingrese clave"<< endl;
-    cin >> claveadmin;
-    cout << "Desea realizar registro de nuevo usuario? Si = 1 No = 2"<<endl ;
-
+string textoABinario(const string& texto) {
+    string binario;
+    for (char c : texto) {
+        for (int i = 7; i >= 0; --i) {
+            binario += ((c >> i) & 1) ? '1' : '0';
+        }
+    }
+    return binario;
 }
-void usuario(){
-    char usuario;
-    char clave;
-    int opciones;
-    cout << "\n--- Usuario ---\n";
-    cout << "Ingrese Usuario"<< endl;
-    cin >> usuario;
-    cout<< "Ingrese clave"<< endl;
+
+string invertirBits(const string& bloque) {
+    string res = bloque;
+    for (char& bit : res) {
+        bit = (bit == '1') ? '0' : '1';
+    }
+    return res;
+}
+
+string invertirCadaNBloques(const string& bloque, int n) {
+    string res = bloque;
+    for (size_t i = 0; i < bloque.size(); i += n) {
+        for (int j = 0; j < n && i + j < bloque.size(); ++j) {
+            res[i + j] = (bloque[i + j] == '1') ? '0' : '1';
+        }
+    }
+    return res;
+}
+
+string encriptar(string texto, int n) {
+    string binario = textoABinario(texto);
+    vector<string> bloques;
+    for (size_t i = 0; i < binario.size(); i += n) {
+        bloques.push_back(binario.substr(i, n));
+    }
+
+    vector<string> codificado;
+    for (size_t i = 0; i < bloques.size(); ++i) {
+        if (i == 0) {
+            codificado.push_back(invertirBits(bloques[i]));
+        } else {
+            int unos = count(bloques[i - 1].begin(), bloques[i - 1].end(), '1');
+            int ceros = n - unos;
+
+            if (unos == ceros) {
+                codificado.push_back(invertirBits(bloques[i]));
+            } else if (ceros > unos) {
+                codificado.push_back(invertirCadaNBloques(bloques[i], 2));
+            } else {
+                codificado.push_back(invertirCadaNBloques(bloques[i], 3));
+            }
+        }
+    }
+
+    string resultado;
+    for (const string& b : codificado) {
+        resultado += b;
+    }
+
+    return resultado;
+}
+
+void crearSudoTemporal() {
+    string clave = "asasd";
+    int semilla = 4;
+    ofstream archivo("sudo.txt");
+    archivo << encriptar(clave, semilla);
+    archivo.close();
+}
+void administrador() {
+    string claveIngresada;
+    string claveGuardada;
+     int semilla = 4;
+
+    cout << "\nIngrese la clave de administrador: ";
+    cin >> claveIngresada;
+     crearSudoTemporal();
+    // Leer clave encriptada del archivo
+    ifstream archivo("sudo.txt");
+    if (!archivo.is_open()) {
+        cout << "No se pudo abrir el archivo sudo.txt\n";
+        return;
+    }
+    getline(archivo, claveGuardada);
+    archivo.close();
+
+    // Validación (simple aquí, debes comparar con la clave encriptada)
+    if (encriptar(claveIngresada,semilla) != claveGuardada) {
+        cout << "Clave incorrecta.\n";
+        return;
+    }
+
+    cout << "\nAcceso permitido.\n";
+
+    // Registro de nuevo usuario
+    string cedula, clave;
+    int saldo;
+
+    cout << "Ingrese cedula: ";
+    cin >> cedula;
+    cout << "Ingrese clave: ";
     cin >> clave;
-      cout << "\n--- Opciones ---\n";
-    cout <<"1. Consultar saldo"<<endl;
-    cout << "2. Retirar saldo"<<endl;
-    cout <<"Que desea hacer."<<endl;
-    cin>> opciones;
+    cout << "Ingrese saldo inicial (COP): ";
+    cin >> saldo;
 
+    ofstream usuarios("usuarios.txt", ios::app);  // Modo append
+    if (!usuarios.is_open()) {
+        cout << "No se pudo abrir el archivo de usuarios.\n";
+        return;
+    }
+
+    usuarios << cedula << " " << encriptar(clave,semilla) << " " << saldo << endl;
+    usuarios.close();
+
+    cout << "Usuario registrado exitosamente.\n";
 }
+
+void usuario() {
+    int semilla = 4;
+    string cedula, clave;
+    cout << "\nIngrese su cédula: ";
+    cin >> cedula;
+    cout << "Ingrese su clave: ";
+    cin >> clave;
+
+    // Buscar usuario
+    ifstream archivo("usuarios.txt");
+    ofstream temp("temp.txt");
+    bool encontrado = false;
+    string ced, claveArchivo;
+    int saldo;
+
+    if (!archivo.is_open() || !temp.is_open()) {
+        cout << "Error al abrir archivos.\n";
+        return;
+    }
+
+    while (archivo >> ced >> claveArchivo >> saldo) {
+        if (ced == cedula && claveArchivo == encriptar(clave, semilla)) {
+            encontrado = true;
+
+            int opcion;
+            cout << "\n1. Consultar saldo\n2. Retirar dinero\nOpción: ";
+            cin >> opcion;
+
+            saldo -= 1000; // Costo de transacción
+
+            if (opcion == 1) {
+                cout << "Su saldo es: " << saldo << " COP\n";
+            } else if (opcion == 2) {
+                int retiro;
+                cout << "Ingrese cantidad a retirar: ";
+                cin >> retiro;
+
+                if (retiro + 1000 > saldo + 1000) {
+                    cout << "Fondos insuficientes.\n";
+                } else {
+                    saldo -= retiro;
+                    cout << "Retiro exitoso. Nuevo saldo: " << saldo << " COP\n";
+                }
+            }
+        }
+        temp << ced << " " << claveArchivo << " " << saldo << endl;
+    }
+
+    archivo.close();
+    temp.close();
+    remove("usuarios.txt");
+    rename("temp.txt", "usuarios.txt");
+
+    if (!encontrado)
+        cout << "Usuario o clave incorrecta.\n";
+}
+
 void cajero(){
     int opcion;
 
