@@ -207,12 +207,11 @@ void crearSudoTemporal() {
 void administrador() {
     string claveIngresada;
     string claveGuardada;
-     int semilla = 4;
+    int semilla = 4;
 
     cout << "\nIngrese la clave de administrador: ";
     cin >> claveIngresada;
-     crearSudoTemporal();
-    // Leer clave encriptada del archivo
+
     ifstream archivo("sudo.txt");
     if (!archivo.is_open()) {
         cout << "No se pudo abrir el archivo sudo.txt\n";
@@ -221,46 +220,52 @@ void administrador() {
     getline(archivo, claveGuardada);
     archivo.close();
 
-    // Validación (simple aquí, debes comparar con la clave encriptada)
-    if (encriptar(claveIngresada,semilla) != claveGuardada) {
+    if (encriptar(claveIngresada, semilla) != claveGuardada) {
         cout << "Clave incorrecta.\n";
         return;
     }
 
-    cout << "\nAcceso permitido.\n";
+    cout << "\n--- Acceso de administrador ---\n";
 
-    // Registro de nuevo usuario
-    string cedula, clave;
-    int saldo;
+    int opcion;
+    do {
+        cout << "\n1. Registrar nuevo usuario\n2. Salir\nOpción: ";
+        cin >> opcion;
 
-    cout << "Ingrese cedula: ";
-    cin >> cedula;
-    cout << "Ingrese clave: ";
-    cin >> clave;
-    cout << "Ingrese saldo inicial (COP): ";
-    cin >> saldo;
+        if (opcion == 1) {
+            string cedula, clave;
+            int saldo;
+            cout << "Ingrese cédula: ";
+            cin >> cedula;
+            cout << "Ingrese clave: ";
+            cin >> clave;
+            cout << "Ingrese saldo inicial (COP): ";
+            cin >> saldo;
 
-    ofstream usuarios("usuarios.txt", ios::app);  // Modo append
-    if (!usuarios.is_open()) {
-        cout << "No se pudo abrir el archivo de usuarios.\n";
-        return;
-    }
+            ofstream usuarios("usuarios.txt", ios::app);
+            if (!usuarios.is_open()) {
+                cout << "No se pudo abrir el archivo de usuarios.\n";
+                return;
+            }
 
-    usuarios << cedula << " " << encriptar(clave,semilla) << " " << saldo << endl;
-    usuarios.close();
+            usuarios << cedula << " " << encriptar(clave, semilla) << " " << saldo << endl;
+            usuarios.close();
 
-    cout << "Usuario registrado exitosamente.\n";
+            cout << "Usuario registrado exitosamente.\n";
+        }
+    } while (opcion != 2);
+
+    cout << "Sesión de administrador finalizada.\n";
 }
 
+
 void usuario() {
-    int semilla = 4;
     string cedula, clave;
     cout << "\nIngrese su cédula: ";
     cin >> cedula;
     cout << "Ingrese su clave: ";
     cin >> clave;
 
-    // Buscar usuario
     ifstream archivo("usuarios.txt");
     ofstream temp("temp.txt");
     bool encontrado = false;
@@ -273,29 +278,39 @@ void usuario() {
     }
 
     while (archivo >> ced >> claveArchivo >> saldo) {
-        if (ced == cedula && claveArchivo == encriptar(clave, semilla)) {
+        if (ced == cedula && claveArchivo == encriptar(clave, 4)) {
             encontrado = true;
-
             int opcion;
-            cout << "\n1. Consultar saldo\n2. Retirar dinero\nOpción: ";
-            cin >> opcion;
 
-            saldo -= 1000; // Costo de transacción
+            do {
+                cout << "\n1. Consultar saldo\n2. Retirar dinero\n3. Salir\nOpción: ";
+                cin >> opcion;
 
-            if (opcion == 1) {
-                cout << "Su saldo es: " << saldo << " COP\n";
-            } else if (opcion == 2) {
-                int retiro;
-                cout << "Ingrese cantidad a retirar: ";
-                cin >> retiro;
+                saldo -= 1000; // costo de transacción
 
-                if (retiro + 1000 > saldo + 1000) {
-                    cout << "Fondos insuficientes.\n";
-                } else {
-                    saldo -= retiro;
-                    cout << "Retiro exitoso. Nuevo saldo: " << saldo << " COP\n";
+                switch (opcion) {
+                case 1:
+                    cout << "Saldo actual: " << saldo << " COP\n";
+                    break;
+                case 2: {
+                    int retiro;
+                    cout << "Ingrese cantidad a retirar: ";
+                    cin >> retiro;
+                    if (retiro + 1000 > saldo + 1000) {
+                        cout << "Fondos insuficientes.\n";
+                    } else {
+                        saldo -= retiro;
+                        cout << "Retiro exitoso. Nuevo saldo: " << saldo << " COP\n";
+                    }
+                    break;
                 }
-            }
+                case 3:
+                    cout << "Sesión finalizada.\n";
+                    break;
+                default:
+                    cout << "Opción inválida.\n";
+                }
+            } while (opcion != 3);
         }
         temp << ced << " " << claveArchivo << " " << saldo << endl;
     }
@@ -307,35 +322,4 @@ void usuario() {
 
     if (!encontrado)
         cout << "Usuario o clave incorrecta.\n";
-}
-
-void cajero(){
-    int opcion;
-
-    cout <<"MENU CAJERO"<<endl;
-    cout << "OPCIONES ROLES"<< endl;
-    cout <<"1. Administrador"<<endl;
-    cout << "2. usuario"<<endl;
-    cout << "3. Salir "<<endl;
-    cout <<"Escoja una opcion: "<<endl;
-    cin>> opcion;
-
-    switch (opcion) {
-    case 1:
-        administrador();
-
-        break;
-    case 2:
-        usuario();
-        break;
-
-    case 3:
-        cout << "Vuelva pronto.\n";
-        break;
-    default:
-        cout << "Opcion invalida. Intente de nuevo.\n";
-        break;
-    } while(opcion != 3);
-
-
 }
