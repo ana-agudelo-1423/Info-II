@@ -13,34 +13,34 @@ int main(){
     int opcion;
     do {
 
-    cout << "\n==============================\n";
-    cout << "        MENU PRINCIPAL        \n";
-    cout << "==============================\n";
-    cout << "1. Codificar archivos\n";
-    cout << "2. Cajero\n";
-    cout << "3. Salir\n";
-    cout << "Seleccione una opción: ";
-    cin >> opcion;
+        cout << "\n==============================\n";
+        cout << "        MENU PRINCIPAL        \n";
+        cout << "==============================\n";
+        cout << "1. Codificar archivos\n";
+        cout << "2. Cajero\n";
+        cout << "3. Salir\n";
+        cout << "Seleccione una opción: ";
+        cin >> opcion;
 
-    switch (opcion) {
-    case 1:
-        cout << "\n--- Codificar archivos de texto ---\n";
-        codificacion();
-        break;
-    case 2:
-        cout << "\n--- Cajero ---\n";
-        cajero();  // Asumiendo que está implementado como se explicó
-        break;
-    case 3:
-        cout << "Vuelva pronto.\n";
-        break;
-    default:
-        cout << "Opción inválida. Intente de nuevo.\n";
-    }
+        switch (opcion) {
+        case 1:
+            cout << "\n--- Codificar archivos de texto ---\n";
+            codificacion();
+            break;
+        case 2:
+            cout << "\n--- Cajero ---\n";
+            cajero();  // Asumiendo que está implementado como se explicó
+            break;
+        case 3:
+            cout << "Vuelva pronto.\n";
+            break;
+        default:
+            cout << "Opción inválida. Intente de nuevo.\n";
+        }
 
-} while (opcion != 3);
+    } while (opcion != 3);
 
-return 0;
+    return 0;
 }
 string leerArchivoBinario(const string& nombreArchivo) {
     ifstream archivo(nombreArchivo, ios::binary);
@@ -115,25 +115,25 @@ void codificacion(){
     int metodo;
     int semilla;
     string entrada, salida;
-    
+
     cout << "Seleccione el metodo de codificacion:\n";
     cout << "1. Inversion segun reglas por bloque\n";
     cout << "2. Rotacion circular de bits\n";
-    
+
     // Pedir datos por consola
     cout << "Archivo fuente: ";
     cin >> entrada;
     string binario = leerArchivoBinario(entrada);
-    
+
     cout << "Archivo salida: ";
     cin >> salida;
-    
+
     cout << "Semilla (n): ";
     cin >> semilla;
-    
+
     cout << "Método (1 o 2): ";
     cin >> metodo;
-    
+
     if (metodo == 1) {
         resultado = codificarMetodo1(binario, semilla);
     } else if (metodo == 2) {
@@ -142,9 +142,9 @@ void codificacion(){
         cout << "Metodo invalido\n";
         return;
     }
-    
-    guardarBinario(resultado, salida);  o
-    cout << "Archivo codificado guardado exitosamente en: " << salida << "\n";
+
+    guardarBinario(resultado, salida);
+            cout << "Archivo codificado guardado exitosamente en: " << salida << "\n";
 }
 
 string textoABinario(const string& texto) {
