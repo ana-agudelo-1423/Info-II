@@ -19,7 +19,7 @@ int main(){
         cout << "1. Codificar archivos\n";
         cout << "2. Cajero\n";
         cout << "3. Salir\n";
-        cout << "Seleccione una opción: ";
+        cout << "Seleccione una opcion: ";
         cin >> opcion;
 
         switch (opcion) {
@@ -144,7 +144,7 @@ void codificacion(){
     }
 
     guardarBinario(resultado, salida);
-            cout << "Archivo codificado guardado exitosamente en: " << salida << "\n";
+    cout << "Archivo codificado guardado exitosamente en: " << salida << "\n";
 }
 
 string textoABinario(const string& texto) {
@@ -334,3 +334,34 @@ void usuario() {
     if (!encontrado)
         cout << "Usuario o clave incorrecta.\n";
 }
+void cajero(){
+    int opcion;
+
+    cout <<"MENU CAJERO"<<endl;
+    cout << "OPCIONES ROLES"<< endl;
+    cout <<"1. Administrador"<<endl;
+    cout << "2. usuario"<<endl;
+    cout << "3. Salir "<<endl;
+    cout <<"Escoja una opcion: "<<endl;
+    cin>> opcion;
+
+    switch (opcion) {
+    case 1:
+        administrador();
+
+        break;
+    case 2:
+        usuario();
+        break;
+
+    case 3:
+        cout << "Vuelva pronto.\n";
+        break;
+    default:
+        cout << "Opcion invalida. Intente de nuevo.\n";
+        break;
+    } while(opcion != 3);
+
+
+}
+
