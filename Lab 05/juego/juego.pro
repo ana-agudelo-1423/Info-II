@@ -10,15 +10,13 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    pacman.cpp \
-    widget.cpp
+    mainwindow.cpp
 
 HEADERS += \
-    pacman.h \
-    widget.h
+    mainwindow.h
 
 FORMS += \
-    widget.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
